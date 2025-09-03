@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
 # Config
-UPLOAD_DIR = os.environ.get("UPLOAD_DIR", "/uploads")   # set to /uploads if Render persistent disk mounted, otherwise /tmp/uploads
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", "/tmp/uploads")   # set to /uploads if Render persistent disk mounted, otherwise /tmp/uploads
 MAX_BYTES = 2 * 1024 * 1024  # 2 MB max file size
 ALLOWED_EXT = {".ics"}
 
