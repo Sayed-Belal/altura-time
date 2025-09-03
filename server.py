@@ -89,28 +89,28 @@ def schedule_page(file_id):
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>AlturaTime — {meta['name']}</title>
+  <title>AlturaTime — {{meta['name']}}</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/ical.js@1.4.0/build/ical.min.js"></script>
   <style>
-    body {{ font-family: 'Lato', sans-serif; background: #f8fafb; margin:0; padding:18px; color:#203040; }}
-    .container {{ max-width:760px; margin:20px auto; }}
-    .title {{ font-family:'Nunito',sans-serif; color:#2a9078; font-size:28px; font-weight:900; }}
-    .card {{ background:white; border-radius:10px; padding:18px; box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-top:14px; }}
-    .city{{ font-weight:700; color:#e27d60; }}
-    .time{{ font-size:2rem; color:#2a9078; font-weight:700; }}
-    .call-status.safe{{ background:#5fb878;color:#fff;padding:6px 10px;border-radius:6px;display:inline-block }}
-    .call-status.avoid{{ background:#ef476f;color:#fff;padding:6px 10px;border-radius:6px;display:inline-block }}
-    .note{ color:#2a9078;margin-top:8px }
-    a.button{ display:inline-block; padding:8px 12px; background:#2a9078; color:#fff; border-radius:8px; text-decoration:none }
-    pre.ics{ white-space:pre-wrap; background:#f1f5f6; padding:8px; border-radius:6px; font-size:0.85rem }
+    body {{{{ font-family: 'Lato', sans-serif; background: #f8fafb; margin:0; padding:18px; color:#203040; }}}}
+    .container {{{{ max-width:760px; margin:20px auto; }}}}
+    .title {{{{ font-family:'Nunito',sans-serif; color:#2a9078; font-size:28px; font-weight:900; }}}}
+    .card {{{{ background:white; border-radius:10px; padding:18px; box-shadow:0 6px 18px rgba(0,0,0,0.06); margin-top:14px; }}}}
+    .city{{{{ font-weight:700; color:#e27d60; }}}}
+    .time{{{{ font-size:2rem; color:#2a9078; font-weight:700; }}}}
+    .call-status.safe{{{{ background:#5fb878;color:#fff;padding:6px 10px;border-radius:6px;display:inline-block }}}}
+    .call-status.avoid{{{{ background:#ef476f;color:#fff;padding:6px 10px;border-radius:6px;display:inline-block }}}}
+    .note{{ color:#2a9078;margin-top:8px }}
+    a.button{{ display:inline-block; padding:8px 12px; background:#2a9078; color:#fff; border-radius:8px; text-decoration:none }}
+    pre.ics{{ white-space:pre-wrap; background:#f1f5f6; padding:8px; border-radius:6px; font-size:0.85rem }}
   </style>
 </head>
 <body>
   <div class="container">
     <div class="title">AlturaTime</div>
-    <div style="margin-top:8px">Schedule for: <strong>{meta['name']}</strong></div>
+    <div style="margin-top:8px">Schedule for: <strong>{{meta['name']}}</strong></div>
     <div id="clockCard" class="card">
       <div id="city" class="city">Loading...</div>
       <div id="time" class="time">--:--</div>
@@ -130,61 +130,61 @@ def schedule_page(file_id):
   </div>
 
 <script>
-const fileId = "{file_id}";
-const meta = {json.dumps(meta)};
+const fileId = "{{file_id}}";
+const meta = {{json.dumps(meta)}};
 const icsUrl = "/i/" + fileId;
 
 let loadedSchedule = null;
 let scheduleLocation = null;
 let scheduleEventCount = 0;
 
-function formatTimeDifference(targetDate, currentDate) {{
+function formatTimeDifference(targetDate, currentDate) {{{{
   const diffMs = targetDate - currentDate;
   const diffMins = Math.round(diffMs / 60000);
   const hours = Math.floor(diffMins / 60);
   const minutes = diffMins % 60;
-  if (hours > 0) return `${{hours}} hr ${{minutes}} min`;
-  return `${{minutes}} minutes`;
-}}
+  if (hours > 0) return `${{{{hours}}}} hr ${{{{minutes}}}} min`;
+  return `${{{{minutes}}}} minutes`;
+}}}}
 
-function getStatusFromNow(now) {{
+function getStatusFromNow(now) {{{{
   // now is Date in schedule tz (JS Date)
   const hour = now.getHours();
   const minute = now.getMinutes();
-  if (loadedSchedule) {{
-    for (const eventObj of loadedSchedule) {{
+  if (loadedSchedule) {{{{
+    for (const eventObj of loadedSchedule) {{{{
       const comp = new ICAL.Component(eventObj);
       const e = new ICAL.Event(comp);
       const start = e.startDate.toJSDate();
       const end = e.endDate.toJSDate();
-      if (now >= start && now <= end) {{
-        return {{status: "CLASS IN SESSION", cls:"avoid"}};
-      }}
-    }}
-  }}
+      if (now >= start && now <= end) {{{{
+        return {{{{status: "CLASS IN SESSION", cls:"avoid"}}}};
+      }}}}
+    }}}}
+  }}}}
   const mins = hour * 60 + minute;
-  if (mins >= 420 && mins <= 1290) return {{status:"GOOD TO CALL", cls:"safe"}};
-  if (mins > 1290 || mins < 420) return {{status:"AVOID CALLING", cls:"avoid"}};
-  return {{status:"MAYBE", cls:"maybe"}};
-}}
+  if (mins >= 420 && mins <= 1290) return {{{{status:"GOOD TO CALL", cls:"safe"}}}};
+  if (mins > 1290 || mins < 420) return {{{{status:"AVOID CALLING", cls:"avoid"}}}};
+  return {{{{status:"MAYBE", cls:"maybe"}}}};
+}}}}
 
-function getNextClassTime(now) {{
+function getNextClassTime(now) {{{{
   let next = null; let mindiff = Infinity;
   if (!loadedSchedule) return null;
-  for (const eventObj of loadedSchedule) {{
+  for (const eventObj of loadedSchedule) {{{{
     const comp = new ICAL.Component(eventObj);
     const e = new ICAL.Event(comp);
     const start = e.startDate.toJSDate();
-    if (start > now) {{
+    if (start > now) {{{{
       const diff = start - now;
-      if (diff < mindiff) {{ mindiff = diff; next = start; }}
-    }}
-  }}
+      if (diff < mindiff) {{{{ mindiff = diff; next = start; }}}}
+    }}}}
+  }}}}
   return next;
-}}
+}}}}
 
-async function fetchAndParse() {{
-  try {{
+async function fetchAndParse() {{{{
+  try {{{{
     const r = await fetch(icsUrl);
     if (!r.ok) throw new Error("ICS fetch failed");
     const icsText = await r.text();
@@ -199,26 +199,26 @@ async function fetchAndParse() {{
     let tz = null;
     const tzComp = comp.getFirstSubcomponent("vtimezone");
     if (tzComp) tz = tzComp.getFirstPropertyValue("tzid");
-    if (!tz && vevents.length>0) {{
+    if (!tz && vevents.length>0) {{{{
       const first = vevents[0].getFirstProperty("dtstart");
       if (first?.parameters?.tzid) tz = first.parameters.tzid;
-    }}
-    scheduleLocation = {{tzValue: tz || 'UTC', displayName: meta.name}};
+    }}}}
+    scheduleLocation = {{{{tzValue: tz || 'UTC', displayName: meta.name}}}};
     renderClock();
     setInterval(renderClock, 1000);
-  }} catch (err) {{
+  }}}} catch (err) {{{{
     document.getElementById("city").textContent = "Failed to load schedule";
     document.getElementById("time").textContent = "--:--";
     document.getElementById("status").textContent = "ERROR";
     console.error(err);
-  }}
-}}
+  }}}}
+}}}}
 
-function renderClock() {{
+function renderClock() {{{{
   if (!scheduleLocation) return;
   const tz = scheduleLocation.tzValue;
-  const now = new Date(new Date().toLocaleString("en-US", {{timeZone: tz}}));
-  const t12 = now.toLocaleTimeString('en-US', {{hour:'numeric', minute:'2-digit', hour12:true, timeZone: tz}});
+  const now = new Date(new Date().toLocaleString("en-US", {{{{timeZone: tz}}}}));
+  const t12 = now.toLocaleTimeString('en-US', {{{{hour:'numeric', minute:'2-digit', hour12:true, timeZone: tz}}}});
   document.getElementById("city").textContent = scheduleLocation.displayName + " (" + tz + ")";
   document.getElementById("time").textContent = t12;
 
@@ -232,7 +232,7 @@ function renderClock() {{
 
   const next = getNextClassTime(now);
   document.getElementById("next").textContent = next ? "Next class in " + formatTimeDifference(next, now) : "No more upcoming classes today.";
-}}
+}}}}
 
 fetchAndParse();
 </script>
